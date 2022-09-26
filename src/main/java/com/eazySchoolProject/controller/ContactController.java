@@ -1,17 +1,23 @@
 package com.eazySchoolProject.controller;
 
-import java.util.logging.Logger;
-
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.eazySchoolProject.model.Contact;
+import com.eazySchoolProject.service.ContactService;
 
 @Controller
 public class ContactController {
-	private static   org.slf4j.Logger log =  LoggerFactory.getLogger(ContactController.class);
+	
+	private final ContactService cs;
+	
+	@Autowired
+	public ContactController(ContactService cs) {
+		this.cs = cs;
+	}
 	
 	@RequestMapping(value= {"/contact"})
 	public String displayContactPage() {
@@ -19,14 +25,10 @@ public class ContactController {
 	}
 	
 	@PostMapping(value="/saveMsg")
-	public ModelAndView saveMessage(@RequestParam String name, @RequestParam String mobileNum, @RequestParam String
-			email, @RequestParam String subject, @RequestParam String message) {
+	public ModelAndView saveMessage(Contact contact) {
 		
-		log.info("Name: " + name);
-		log.info("Mobile Number: " + mobileNum);
-		log.info("Email: " + email);
-		log.info("Subject: " + subject);
-		log.info("Message: " + message);
+		cs.saveContent(contact);
+		
 		return new ModelAndView("redirect:/contact");
 		
 		
