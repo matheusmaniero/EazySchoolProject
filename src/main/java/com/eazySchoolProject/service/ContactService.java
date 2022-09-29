@@ -1,7 +1,7 @@
 package com.eazySchoolProject.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.eazySchoolProject.model.Contact;
 
@@ -10,7 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 //@RequestScope
-@SessionScope
+//@SessionScope
+@ApplicationScope
 public class ContactService {
 	
 	private int counter = 0;
