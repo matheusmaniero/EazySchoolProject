@@ -12,10 +12,16 @@ public class ProjectSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
 		/*
-		 * authorize all users without log in
+		 * defines in wich page will be need to log in
 		 * 
 		 */
-		http.authorizeRequests().anyRequest().permitAll();
+		http.authorizeRequests()
+		.mvcMatchers("/home").permitAll()
+		.mvcMatchers("/holidays/**").permitAll()
+		.mvcMatchers("/contact").permitAll()
+		.mvcMatchers("/saveMsg").permitAll()
+		.mvcMatchers("/courses").authenticated()
+		.mvcMatchers("/about").permitAll();
 		http.formLogin();
 		http.httpBasic();
 		return http.build();
