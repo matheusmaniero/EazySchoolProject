@@ -18,7 +18,8 @@ public class ProjectSecurityConfig {
 		 * defines in wich page will be need to log in
 		 * 
 		 */
-		http.csrf().disable().authorizeRequests()
+		http.csrf().ignoringAntMatchers("/saveMsg").and()
+		.authorizeRequests()
 		.mvcMatchers("login").permitAll()
 		.mvcMatchers("/dashboard").authenticated()
 		.mvcMatchers("/home").permitAll()
