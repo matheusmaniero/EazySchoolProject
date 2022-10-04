@@ -21,11 +21,11 @@ public class ProjectSecurityConfig {
 		http.csrf().disable().authorizeRequests()
 		.mvcMatchers("login").permitAll()
 		.mvcMatchers("/dashboard").authenticated()
-		.mvcMatchers("/home").authenticated()
+		.mvcMatchers("/home").permitAll()
 		.mvcMatchers("/holidays/**").permitAll()
 		.mvcMatchers("/contact").permitAll()
 		.mvcMatchers("/saveMsg").permitAll()
-		.mvcMatchers("/courses").authenticated()
+		.mvcMatchers("/courses").permitAll()
 		.mvcMatchers("/about").permitAll();
 		http.formLogin().loginPage("/login")
 		.defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()
