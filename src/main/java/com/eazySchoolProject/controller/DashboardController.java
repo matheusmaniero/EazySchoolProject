@@ -16,7 +16,7 @@ public class DashboardController {
 		
 		model.addAttribute("username", auth.getName());
 		model.addAttribute("roles",auth.getAuthorities().toString());
-		return "dashboard.html";
+		throw new RuntimeException("Sorry for the incovenient..");
 	}
 
 }
