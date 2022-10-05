@@ -1,6 +1,6 @@
 package com.eazySchoolProject.controller;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -11,10 +11,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eazySchoolProject.model.Contact;
 import com.eazySchoolProject.service.ContactService;
-import com.eazySchoolProject.status.Constants;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,9 +51,14 @@ public class ContactController {
 		
 		return "redirect:/contact";
 		
-		
-		
-		
+	}
+	
+	@RequestMapping("/displayMessages")
+	public ModelAndView displayMessages(Model model) {
+		List<Contact> contactMsgs = cs.findWithOpenStatus();
+		ModelAndView modelAndView = new ModelAndView("messages.html");
+		modelAndView.addObject("contactMsgs",contactMsgs);
+		return modelAndView;
 	}
 	
 	

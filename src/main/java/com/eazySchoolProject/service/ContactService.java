@@ -1,10 +1,10 @@
 package com.eazySchoolProject.service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.eazySchoolProject.model.Contact;
 import com.eazySchoolProject.repository.ContactRepository;
@@ -33,5 +33,10 @@ public class ContactService {
 		
 		return false;
 		
+	}
+	
+	public List<Contact> findWithOpenStatus(){
+		List<Contact> contactMsgs = repo.findMsgsWithStatus(Constants.OPEN);
+		return contactMsgs;
 	}
 }

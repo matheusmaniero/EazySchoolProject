@@ -20,7 +20,8 @@ public class ProjectSecurityConfig {
 		 */
 		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/h2-console/**").and()
 		.authorizeRequests()
-		.mvcMatchers("login").permitAll()
+		.mvcMatchers("/displayMessages").hasRole("ADMIN")
+		.mvcMatchers("/login").permitAll()
 		.mvcMatchers("/dashboard").authenticated()
 		.mvcMatchers("/home").permitAll()
 		.mvcMatchers("/holidays/**").permitAll()
