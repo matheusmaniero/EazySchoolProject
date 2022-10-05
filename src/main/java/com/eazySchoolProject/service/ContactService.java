@@ -39,4 +39,17 @@ public class ContactService {
 		List<Contact> contactMsgs = repo.findMsgsWithStatus(Constants.OPEN);
 		return contactMsgs;
 	}
+	
+	public boolean updatedMsgStatus(int contactId, String updatedBy) {
+		
+		int result = repo.updateMsgStatus(contactId, Constants.CLOSED, updatedBy);
+		
+		if (result > 0) {
+			return true;
+		}
+		
+		return false;
+		
+		
+	}
 }
