@@ -1,30 +1,37 @@
 package com.eazySchoolProject.service;
 
+import java.time.LocalDateTime;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.ApplicationScope;
 
 import com.eazySchoolProject.model.Contact;
+import com.eazySchoolProject.repository.ContactRepository;
+import com.eazySchoolProject.status.Constants;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-//@RequestScope
-//@SessionScope
-@ApplicationScope
+
 public class ContactService {
 	
-	private int counter = 0;
+	@Autowired
+	public ContactRepository repo;
 	
-	public ContactService() {
-		System.out.println("ContactService is been initialized");
-	}
+	
 	
 	public boolean saveContent(Contact contact) {
-		log.info(contact.toString());
-		this.counter += 1;
-		System.out.println(counter);
-		return true;
+		contact.setCreatedBy(Constants.ANONYMOUS);
+		contact.setStatus(Constants.OPEN);
+		contact.setCreatedAt(LocalDateTime.now());
+		int rowsAffected = repo.saveContactMsg(contact);
+		if (rowsAffected >= 1) {
+			return true;
+		}
+		
+		return false;
 		
 	}
 }
