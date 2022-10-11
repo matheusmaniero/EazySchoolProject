@@ -2,6 +2,7 @@ package com.eazySchoolProject.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,8 @@ public class ContactService {
 		contact.setCreatedBy(Constants.ANONYMOUS);
 		contact.setStatus(Constants.OPEN);
 		contact.setCreatedAt(LocalDateTime.now());
-		int rowsAffected = repo.saveContactMsg(contact);
-		if (rowsAffected >= 1) {
+		Contact savedContact = repo.save(contact);
+		if (savedContact != null && savedContact.getContactId() > 0) {
 			return true;
 		}
 		
@@ -36,19 +37,23 @@ public class ContactService {
 	}
 	
 	public List<Contact> findWithOpenStatus(){
-		List<Contact> contactMsgs = repo.findMsgsWithStatus(Constants.OPEN);
+		List<Contact> contactMsgs = repo.findByStatus(Constants.OPEN);
 		return contactMsgs;
 	}
 	
 	public boolean updatedMsgStatus(int contactId, String updatedBy) {
 		
-		int result = repo.updateMsgStatus(contactId, Constants.CLOSED, updatedBy);
+		Optional<Contact> contact = repo.findById(contactId);
+		contact.ifPresent(contact1 -> {
+			contact1.setStatus(Constants.CLOSED);
+			contact1.setUpdatedBy(updatedBy);
+			contact1.setUpdatedAt(LocalDateTime.now());
+			
+		});
 		
-		if (result > 0) {
-			return true;
-		}
+		Contact updatedContact = repo.save(contact.get());
 		
-		return false;
+		return true;
 		
 		
 	}

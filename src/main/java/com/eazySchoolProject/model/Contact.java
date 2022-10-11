@@ -1,15 +1,27 @@
 package com.eazySchoolProject.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import lombok.Data;
 
 @Data
+@Entity
+@Table(name="contact_msg")
 public class Contact extends BaseEntity {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
+	@GenericGenerator(name = "native", strategy = "native")
 	private int contactId;
 	private String status;
 	
