@@ -1,6 +1,5 @@
 package com.eazySchoolProject.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,10 +22,8 @@ public class ContactService {
 	
 	
 	
-	public boolean saveContent(Contact contact) {
-		contact.setCreatedBy(Constants.ANONYMOUS);
-		contact.setStatus(Constants.OPEN);
-		contact.setCreatedAt(LocalDateTime.now());
+	public boolean saveContent(Contact contact) {		
+		contact.setStatus(Constants.OPEN);		
 		Contact savedContact = repo.save(contact);
 		if (savedContact != null && savedContact.getContactId() > 0) {
 			return true;
@@ -41,14 +38,12 @@ public class ContactService {
 		return contactMsgs;
 	}
 	
-	public boolean updatedMsgStatus(int contactId, String updatedBy) {
+	public boolean updatedMsgStatus(int contactId) {
 		
 		Optional<Contact> contact = repo.findById(contactId);
 		contact.ifPresent(contact1 -> {
 			contact1.setStatus(Constants.CLOSED);
-			contact1.setUpdatedBy(updatedBy);
-			contact1.setUpdatedAt(LocalDateTime.now());
-			
+		
 		});
 		
 		Contact updatedContact = repo.save(contact.get());
