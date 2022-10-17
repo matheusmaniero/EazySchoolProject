@@ -18,7 +18,7 @@ public class ProjectSecurityConfig {
 		 * defines in wich page will be need to log in
 		 * 
 		 */
-		http.csrf().ignoringAntMatchers("/saveMsg").and()
+		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/public/**").and()
 		.authorizeRequests()
 		.mvcMatchers("/displayMessages").hasRole("ADMIN")
 		.mvcMatchers("/login").permitAll()
@@ -28,7 +28,8 @@ public class ProjectSecurityConfig {
 		.mvcMatchers("/contact").permitAll()
 		.mvcMatchers("/saveMsg").permitAll()
 		.mvcMatchers("/courses").permitAll()
-		.mvcMatchers("/about").permitAll();		
+		.mvcMatchers("/about").permitAll()
+		.mvcMatchers("/public/**").permitAll();
 		http.formLogin().loginPage("/login")
 		.defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()
 		.and().logout().logoutSuccessUrl("/login?logout=true").invalidateHttpSession(true).permitAll();		
