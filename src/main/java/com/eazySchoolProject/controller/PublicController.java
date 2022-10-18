@@ -2,6 +2,7 @@ package com.eazySchoolProject.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.eazySchoolProject.model.Person;
+import com.eazySchoolProject.service.PersonService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(("public"))
 public class PublicController {
 	
-	
+	@Autowired
+	private PersonService personService;
 	
 	@GetMapping(value = "/register")
 	public String displayRegisterPage(Model model) {
@@ -33,7 +36,13 @@ public class PublicController {
 			return "register.html";
 		}
 		
-		return "redirect:/login?register=true";
+		boolean isSaved = personService.savePerson(person);
+		
+		if (isSaved) {
+			return "redirect:/login?register=true";
+		}
+		
+		return "register.html";
 	}
 	
 	

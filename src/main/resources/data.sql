@@ -18,3 +18,9 @@ VALUES (' July 4 ','Independence Day','FEDERAL',CURDATE(), 'DBA' );
 
 INSERT INTO `holidays` (`day`,`reason`,`type`,`created_at`,`created_by`)
 VALUES (' Sep 5 ','Labor Day','FEDERAL',CURDATE(), 'DBA' );
+
+INSERT INTO `roles` (`role_name`,`created_at`,`created_by`)
+VALUES ('ADMIN',CURDATE(),'DBA');
+
+INSERT INTO `roles` (`role_name`,`created_at`,`created_by`)
+VALUES ('STUDENT',CURDATE(),'DBA');

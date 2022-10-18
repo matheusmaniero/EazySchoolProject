@@ -1,9 +1,13 @@
 package com.eazySchoolProject.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -69,9 +73,13 @@ public class Person extends BaseEntity {
 	@Transient
 	private String confirmPwd;
 	
-	//private Roles roles;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
+	@JoinColumn(name = "role_id", referencedColumnName = "roleId", nullable = false)
+	private Roles roles;
 	
-	//private Address address;
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Address.class)
+	@JoinColumn(name = "address_id", referencedColumnName = "addressId", nullable = true)
+	private Address address;
 	
 	
 	
