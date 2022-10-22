@@ -1,6 +1,7 @@
 package com.eazySchoolProject.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.eazySchoolProject.model.Person;
@@ -18,10 +19,14 @@ public class PersonService {
 	@Autowired
 	private RolesRepository rolesRepo;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	public boolean savePerson(Person person) {
 		
 		Roles role = rolesRepo.getByRoleName(Constants.STUDENT_ROLE);
 		person.setRoles(role);
+		person.setPwd(passwordEncoder.encode(person.getPwd()));
 		person = personRepo.save(person);
 		
 		if (person != null && person.getPersonId() > 0) {
