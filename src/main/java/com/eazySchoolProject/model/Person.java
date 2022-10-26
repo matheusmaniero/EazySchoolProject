@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
@@ -19,9 +20,11 @@ import org.hibernate.annotations.GenericGenerator;
 import com.eazySchoolProject.annotation.FieldsValueMatch;
 import com.eazySchoolProject.annotation.PasswordValidator;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 @FieldsValueMatch.List({
 	@FieldsValueMatch(
@@ -80,6 +83,10 @@ public class Person extends BaseEntity {
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, targetEntity = Address.class)
 	@JoinColumn(name = "address_id", referencedColumnName = "addressId", nullable = true)
 	private Address address;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = true )
+	@JoinColumn(name = "class_id", referencedColumnName = "classId", nullable = true)
+	private EazyClass eazyClass;
 	
 	
 	
