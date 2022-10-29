@@ -31,6 +31,7 @@ public class ProjectSecurityConfig {
 		.mvcMatchers("/saveMsg").permitAll()
 		.mvcMatchers("/courses").permitAll()
 		.mvcMatchers("/about").permitAll()
+		.mvcMatchers("/student/**").hasRole("STUDENT")
 		.mvcMatchers("/public/**").permitAll();
 		http.formLogin().loginPage("/login")
 		.defaultSuccessUrl("/dashboard").failureUrl("/login?error=true").permitAll()

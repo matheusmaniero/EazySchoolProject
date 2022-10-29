@@ -23,6 +23,9 @@ public class DashboardController {
 	@RequestMapping("/dashboard")
 	public String displayDashboard(Model model, Authentication auth, HttpSession session) {
 		Person person = personRepo.getByEmail(auth.getName());
+		if (person.getEazyClass() != null && person.getEazyClass().getName() != null) {
+			model.addAttribute("enrolledClass", person.getEazyClass().getName());
+		}
 		model.addAttribute("username", person.getName());
 		model.addAttribute("roles",auth.getAuthorities().toString());
 		session.setAttribute("loggedInPerson", person);

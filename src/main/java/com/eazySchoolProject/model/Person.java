@@ -1,5 +1,7 @@
 package com.eazySchoolProject.model;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -87,6 +91,11 @@ public class Person extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY, optional = true )
 	@JoinColumn(name = "class_id", referencedColumnName = "classId", nullable = true)
 	private EazyClass eazyClass;
+	
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@JoinTable (name = "person_courses", joinColumns = {@JoinColumn(name = "person_id", referencedColumnName = "personId")},
+	inverseJoinColumns = { @JoinColumn(name="course_id", referencedColumnName = "courseId")})
+	private Set<Courses> courses;
 	
 	
 	

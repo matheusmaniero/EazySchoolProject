@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.eazySchoolProject.model.Courses;
 import com.eazySchoolProject.model.EazyClass;
 import com.eazySchoolProject.model.Person;
+import com.eazySchoolProject.repository.CoursesRepository;
 import com.eazySchoolProject.repository.EazyClassRepository;
 import com.eazySchoolProject.repository.PersonRepository;
 
@@ -33,6 +34,9 @@ public class AdminController {
 	
 	@Autowired
 	private PersonRepository personRepo;
+	
+	@Autowired
+	private CoursesRepository coursesRepo;
 
 	@RequestMapping("displayClasses")
 	public ModelAndView displayClasses(Model model) {
@@ -129,6 +133,81 @@ public class AdminController {
 	
 		return modelAndView;
 		
+	}
+	
+	@GetMapping("/displayCourses")
+	public ModelAndView displayCourses(Model model) {
+		
+		List<Courses> courses = coursesRepo.findAll();
+		ModelAndView modelAndView = new ModelAndView("courses_secure.html");
+		modelAndView.addObject("course", new Courses());
+		modelAndView.addObject("courses", courses);
+		return modelAndView;
+		
+	}
+	
+	@PostMapping("/addNewCourse")
+	public ModelAndView addNewCourse(Model model, @ModelAttribute("course") Courses course) {
+		ModelAndView modelAndView = new ModelAndView();
+		coursesRepo.save(course);
+		modelAndView.setViewName("redirect:/admin/displayCourses");
+		return modelAndView;
+	}
+	
+	@GetMapping("/viewStudents")
+	public ModelAndView viewStudents(Model model, @RequestParam int id, HttpSession session,
+			@RequestParam(value="error",required=false) String error) {
+		ModelAndView modelAndView = new ModelAndView("course_students.html");
+		if (error != null) {
+			String errorMessage = "E-mail isnt registered";
+			modelAndView.addObject("errorMessage",errorMessage);
+			
+		}
+		
+		Optional<Courses> course = coursesRepo.findById(id);
+		modelAndView.addObject("course",course.get());
+		modelAndView.addObject("person", new Person());
+		session.setAttribute("course", course.get());
+		return modelAndView;
+		
+	}
+	
+	@PostMapping("/addStudentToCourse")
+	public ModelAndView addStudentToCourse(Model model, @ModelAttribute("person") Person person, HttpSession session) {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		Person personEntity = personRepo.getByEmail(person.getEmail());
+		Courses course = (Courses) session.getAttribute("course");
+		
+		if (personEntity == null || !(personEntity.getPersonId() > 0 )) {
+			
+			modelAndView.setViewName("redirect:/admin/viewStudents?id="+course.getCourseId()+"&error=true");
+			return modelAndView;
+			
+		}
+		
+		personEntity.getCourses().add(course);
+		personRepo.save(personEntity);
+		course.getPersons().add(personEntity);		
+		modelAndView.setViewName("redirect:/admin/viewStudents?id="+course.getCourseId());
+		session.setAttribute("course", course);
+		return modelAndView;
+		
+	}
+	
+	@GetMapping("/deleteStudentFromCourse")
+	public ModelAndView deleteStudentFromCourse(Model model, @RequestParam int personId, HttpSession session) {
+		ModelAndView modelAndView = new ModelAndView();
+		Optional<Person> personEntity = personRepo.findById(personId);
+		Courses course = (Courses) session.getAttribute("course");
+		
+		course.getPersons().remove(personEntity);
+		personEntity.get().getCourses().remove(course);
+		personRepo.save(personEntity.get());
+		session.setAttribute("course", course);
+		
+		modelAndView.setViewName("redirect:/admin/viewStudents?id="+course.getCourseId());
+		return modelAndView;
 	}
 	
 	
