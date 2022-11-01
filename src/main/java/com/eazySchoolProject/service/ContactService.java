@@ -1,7 +1,5 @@
 package com.eazySchoolProject.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,17 +44,13 @@ public class ContactService {
 		return msgPage; 
 	}
 	
-	public boolean updatedMsgStatus(int contactId) {
+	public boolean updatedMsgStatus(int contactId) {		
+		int rows = repo.updateStatusById(Constants.CLOSED, contactId);
+		if (rows > 0) {
+			return true;
+		}
+		return false;
 		
-		Optional<Contact> contact = repo.findById(contactId);
-		contact.ifPresent(contact1 -> {
-			contact1.setStatus(Constants.CLOSED);
-		
-		});
-		
-		Contact updatedContact = repo.save(contact.get());
-		
-		return true;
 		
 		
 	}
