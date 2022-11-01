@@ -14,7 +14,8 @@ import com.eazySchoolProject.model.Contact;
 public interface ContactRepository extends PagingAndSortingRepository<Contact, Integer> {
 	
 	 public List<Contact> findByStatus(String status);
-	 @Query("SELECT c FROM Contact c WHERE c.status = :status")
+	// @Query("SELECT c FROM Contact c WHERE c.status = :status")
+	 @Query(value = "SELECT * FROM contact_msg WHERE contact_msg.status = :status",nativeQuery = true)
 	 public Page<Contact> findByStatus(String status,  Pageable pageable);
 	 
 
