@@ -24,7 +24,12 @@ public interface ContactRepository extends PagingAndSortingRepository<Contact, I
 	@Transactional
 	@Modifying
 	@Query("UPDATE Contact c SET c.status = ?1 WHERE c.contactId = ?2")
-	public int updateStatusById(String status, int id); 
-	 
-
+	public int updateStatusById(String status, int id); 	 
+	
+	public Page<Contact> findOpenMsgs(String status, Pageable pageable);
+	
+	@Modifying
+	@Transactional
+	public int updateMsgStatus(String status, int id);
+	
 }

@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +19,12 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name="contact_msg")
+@NamedQueries({
+	@NamedQuery(name="Contact.findOpenMsgs",
+			query = "SELECT c FROM Contact c WHERE c.status=:status"),
+	@NamedQuery(name="Contact.updateMsgStatus",
+			query = "UPDATE Contact c SET c.status = ?1 WHERE c.contactId=?2")
+})
 public class Contact extends BaseEntity {
 	
 	@Id

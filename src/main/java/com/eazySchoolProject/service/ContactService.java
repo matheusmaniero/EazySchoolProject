@@ -39,13 +39,13 @@ public class ContactService {
 	                sortDir.equals("asc") ? Sort.by(sortField).ascending()
 	                        : Sort.by(sortField).descending());
 		
-		Page<Contact> msgPage = repo.findByStatus(Constants.OPEN, pageable);
+		Page<Contact> msgPage = repo.findOpenMsgs(Constants.OPEN, pageable);
 		
 		return msgPage; 
 	}
 	
 	public boolean updatedMsgStatus(int contactId) {		
-		int rows = repo.updateStatusById(Constants.CLOSED, contactId);
+		int rows = repo.updateMsgStatus(Constants.CLOSED, contactId);
 		if (rows > 0) {
 			return true;
 		}
