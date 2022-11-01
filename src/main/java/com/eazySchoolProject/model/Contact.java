@@ -23,6 +23,7 @@ public class Contact extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.AUTO,generator="native")
 	@GenericGenerator(name = "native", strategy = "native")
 	private int contactId;
+	
 	private String status;
 	
 	@NotBlank(message = "Name must not be blank")
