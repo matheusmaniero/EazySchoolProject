@@ -1,6 +1,7 @@
 package com.eazySchoolProject.rest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -12,6 +13,7 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.eazySchoolProject.model.Contact;
 import com.eazySchoolProject.model.Response;
 import com.eazySchoolProject.repository.ContactRepository;
+import com.eazySchoolProject.status.Constants;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -82,6 +85,25 @@ public class ContactRestController {
 		response.setStatusCode("200");
 		response.setStatusMsg("Message Successfully Deleted");
 		return ResponseEntity.status(HttpStatus.OK).body(response);
+		
+	}
+	
+	@PatchMapping("/closeMsg")
+	public ResponseEntity<Response> closeMsg(@RequestBody Contact contactReq){
+		
+		Response response = new Response();
+		Optional<Contact> contact = contactRepository.findById(contactReq.getContactId());
+		
+		if (contact.isPresent()) {
+			contact.get().setStatus(Constants.CLOSED);
+			contactRepository.save(contact.get());
+			response.setStatusCode("200");
+			response.setStatusMsg("Message Successfully Closed");
+			return ResponseEntity.status(HttpStatus.OK).body(response);
+		}
+		response.setStatusCode("400");
+		response.setStatusMsg("Invalid Contact ID received");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		
 	}
 	
