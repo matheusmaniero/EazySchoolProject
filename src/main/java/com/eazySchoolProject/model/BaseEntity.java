@@ -12,6 +12,8 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -21,15 +23,19 @@ public class BaseEntity {
 	
 	@CreatedDate
 	@Column(updatable = false)
+	@JsonIgnore
 	private LocalDateTime createdAt;
 	@CreatedBy
 	@Column(updatable = false)
+	@JsonIgnore
 	private String createdBy;
 	@LastModifiedDate
 	@Column(insertable = false)
+	@JsonIgnore
 	private LocalDateTime updatedAt;
 	@LastModifiedBy
 	@Column(insertable = false)
+	@JsonIgnore
 	private String updatedBy;
 
 }
