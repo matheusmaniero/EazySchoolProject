@@ -29,7 +29,21 @@ public class DashboardController {
 		model.addAttribute("username", person.getName());
 		model.addAttribute("roles",auth.getAuthorities().toString());
 		session.setAttribute("loggedInPerson", person);
+		logMessasges();
 		return "dashboard.html";
 	}
+	
+	
+	/*
+	 * 
+	 *  only for loggin test
+	 */
 
+		private void logMessasges() {
+			log.error("Error msg from Dashboard page");
+			log.warn("Warn msg from Dashboard page");
+			log.info("Info msg from Dashboard page");
+			log.debug("Debug msg from Dashboard page");
+			log.trace("Trace msg from Dashboard page");
+		}
 }
