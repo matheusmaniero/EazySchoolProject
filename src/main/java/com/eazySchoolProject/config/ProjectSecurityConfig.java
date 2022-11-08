@@ -17,7 +17,7 @@ public class ProjectSecurityConfig {
 		 * defines in wich page will be need to log in
 		 * 
 		 */
-		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").and()
+		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").ignoringAntMatchers("/data-api/**").and()
 		.authorizeRequests()
 		.mvcMatchers("/displayProfile").authenticated()
 		.mvcMatchers("/updateProfile").authenticated()
@@ -27,6 +27,7 @@ public class ProjectSecurityConfig {
 		.mvcMatchers("/dashboard").authenticated()
 		.mvcMatchers("/home").permitAll()
 		.mvcMatchers("/api/**").authenticated()
+		.mvcMatchers("/data-api/**").authenticated()
 		.mvcMatchers("/holidays/**").permitAll()
 		.mvcMatchers("/contact").permitAll()
 		.mvcMatchers("/saveMsg").permitAll()

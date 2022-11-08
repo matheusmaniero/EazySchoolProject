@@ -20,7 +20,7 @@ import com.eazySchoolProject.repository.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@Controller("profileControllerBean")
 public class ProfileController {
 
 	@Autowired
