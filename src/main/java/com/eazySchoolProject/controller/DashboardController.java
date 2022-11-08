@@ -4,6 +4,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,8 @@ public class DashboardController {
 	@Value("${eazyschool.contact.successMsg}")
 	private String msg;
 	
+	@Autowired
+	private Environment env;
 	
 	@RequestMapping("/dashboard")
 	public String displayDashboard(Model model, Authentication auth, HttpSession session) {
@@ -55,5 +58,9 @@ public class DashboardController {
 			log.trace("Trace msg from Dashboard page");
 			log.error("this log come from @Value annotation -> "+pageSize);
 			log.error("this log come from @Value annotation -> "+msg);
+			log.error("this log come from Environment Interface -> "+env.getProperty("eazyschool.contact.successMsg"));
+			log.error("this log come from Environment Interface -> "+env.getProperty("eazyschool.contact.pagesize"));
+			log.error("this log come from Environment Interface -> "+env.getProperty("JAVA_HOME"));
+		
 		}
 }
