@@ -3,6 +3,7 @@ package com.eazySchoolProject.controller;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 public class DashboardController {
 	
 	@Autowired
-	PersonRepository personRepo;
+	private PersonRepository personRepo;
+	
+	@Value("${eazyschool.contact.pagesize}")
+	private int pageSize;
+	
+	@Value("${eazyschool.contact.successMsg}")
+	private String msg;
+	
 	
 	@RequestMapping("/dashboard")
 	public String displayDashboard(Model model, Authentication auth, HttpSession session) {
@@ -45,5 +53,7 @@ public class DashboardController {
 			log.info("Info msg from Dashboard page");
 			log.debug("Debug msg from Dashboard page");
 			log.trace("Trace msg from Dashboard page");
+			log.error("this log come from @Value annotation -> "+pageSize);
+			log.error("this log come from @Value annotation -> "+msg);
 		}
 }
