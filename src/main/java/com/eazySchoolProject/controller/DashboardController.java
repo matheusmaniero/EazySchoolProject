@@ -22,7 +22,7 @@ public class DashboardController {
 	@Autowired
 	private PersonRepository personRepo;
 	
-	@Value("${eazyschool.contact.pagesize}")
+	@Value("${eazyschool.pagesize}")
 	private int pageSize;
 	
 	@Value("${eazyschool.contact.successMsg}")
@@ -59,7 +59,7 @@ public class DashboardController {
 			log.error("this log come from @Value annotation -> "+pageSize);
 			log.error("this log come from @Value annotation -> "+msg);
 			log.error("this log come from Environment Interface -> "+env.getProperty("eazyschool.contact.successMsg"));
-			log.error("this log come from Environment Interface -> "+env.getProperty("eazyschool.contact.pagesize"));
+			log.error("this log come from Environment Interface -> "+env.getProperty("eazyschool.pagesize"));
 			log.error("this log come from Environment Interface -> "+env.getProperty("JAVA_HOME"));
 		
 		}
