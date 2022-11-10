@@ -20,8 +20,8 @@ import com.eazySchoolProject.model.Roles;
 import com.eazySchoolProject.repository.PersonRepository;
 
 @Component
-@Profile("prod")
-public class EazySchoolUsernamePwdAuthenticationProvider implements AuthenticationProvider {
+@Profile("!prod")
+public class EazySchoolUsernameNonPwdAuthenticationProvider implements AuthenticationProvider {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -36,7 +36,7 @@ public class EazySchoolUsernamePwdAuthenticationProvider implements Authenticati
 		String pwd = authentication.getCredentials().toString();
 		Person person = personRepo.readByEmail(email);
 		
-		if (person != null && person.getPersonId() > 0 && passwordEncoder.matches(pwd, person.getPwd())) {
+		if (person != null && person.getPersonId() > 0) {
 			
 			return new UsernamePasswordAuthenticationToken(email, null, getGrantedAuthorities(person.getRoles()));
 		
@@ -60,14 +60,6 @@ public class EazySchoolUsernamePwdAuthenticationProvider implements Authenticati
 		return grantedAuthorities;
 	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 
 }
