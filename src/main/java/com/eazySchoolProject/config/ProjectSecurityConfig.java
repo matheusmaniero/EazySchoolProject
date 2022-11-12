@@ -17,11 +17,13 @@ public class ProjectSecurityConfig {
 		 * defines in wich page will be need to log in
 		 * 
 		 */
-		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").ignoringAntMatchers("/data-api/**").and()
+		http.csrf().ignoringAntMatchers("/saveMsg").ignoringAntMatchers("/public/**").ignoringAntMatchers("/api/**").ignoringAntMatchers("/data-api/**").
+		ignoringAntMatchers("/eazyschool/actuator").and()
 		.authorizeRequests()
 		.mvcMatchers("/displayProfile").authenticated()
 		.mvcMatchers("/updateProfile").authenticated()
 		.mvcMatchers("/displayMessages").hasRole("ADMIN")
+		.mvcMatchers("/eazyschool/actuator").hasRole("ADMIN")
 		.mvcMatchers("/admin/**").hasRole("ADMIN")
 		.mvcMatchers("/login").permitAll()
 		.mvcMatchers("/dashboard").authenticated()
